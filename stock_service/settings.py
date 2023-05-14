@@ -28,8 +28,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Own Apps
-    'authentication.apps.AuthenticationConfig',
+    'authentication',
+
+    # Third party Apps
+    'rest_framework',
 ]
+
+AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'errors'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
