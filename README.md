@@ -11,3 +11,9 @@ After installing python create your virtual environment
 And install all the requirements
 
 `pip install -r requirements.txt`
+
+## ROUTES TO IMPLEMENT
+
+| METHOD | ROUTE | FUNCTIONALITY |ACCESS|
+| ------- | ----- | ------------- | ------------- |
+| *POST* | ```/auth/signup/``` | _Register new user_| _All users_|
