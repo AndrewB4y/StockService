@@ -16,8 +16,10 @@ class UserCreateView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
 
+            resp = {i:serializer.data[i] for i in ['email', 'name', 'last_name']}
+            resp['message'] = 'User successfully created'
             return Response(
-                data=serializer.data,
+                data=resp,
                 status=status.HTTP_201_CREATED
             )
 

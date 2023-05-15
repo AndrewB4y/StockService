@@ -1,5 +1,6 @@
 from .models import User
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 
 class UserCreationSerializer(serializers.ModelSerializer):
     
@@ -20,3 +21,12 @@ class UserCreationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(detail="User with email already exists")
 
         return super().validate(attrs)
+    
+    def create(self,validated_data):
+        new_user=User(**validated_data)
+
+        new_user.password=make_password(validated_data.get('password'))
+
+        new_user.save()
+
+        return new_user
