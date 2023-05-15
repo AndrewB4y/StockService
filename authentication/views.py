@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
 from . import serializers
@@ -17,7 +16,7 @@ class UserCreateView(generics.GenericAPIView):
             serializer.save()
 
             resp = {i:serializer.data[i] for i in ['email', 'name', 'last_name']}
-            resp['message'] = 'User successfully created'
+            resp['message'] = 'User successfully created. Proceed to login for access key'
             return Response(
                 data=resp,
                 status=status.HTTP_201_CREATED

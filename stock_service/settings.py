@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Own Apps
     'authentication',
+    'stocksinfo',
 
     # Third party Apps
     'rest_framework',
