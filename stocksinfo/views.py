@@ -21,7 +21,11 @@ class StocksInfoView(generics.GenericAPIView):
         symbol = 'META'
         parameters = request.GET
 
-        if 'symbol' not in parameters:
+        response = {'message': ''}
+
+        if 'symbol' in parameters:
+            symbol = parameters['symbol']
+        else:
             response = {'message': 'No stock symbol defined. Using default symbol: META'}
 
         url = 'https://www.alphavantage.co/query'
@@ -36,22 +40,31 @@ class StocksInfoView(generics.GenericAPIView):
         r = requests.get(url, params=payload)
         data = r.json()
         
-        # Filtering data from response
-        data = data['Time Series (Daily)']
-        dates = [datetime.strptime(date, "%Y-%m-%d") for date in list(data.keys())]
-        dates.sort()
-        last_two_dates = [datetime.strftime(date, "%Y-%m-%d") for date in dates[-2:]]
-        last_two = [data[date] for date in last_two_dates]
+        if 'Time Series (Daily)' in data:
+            # Filtering data from response
+            data = data['Time Series (Daily)']
+            dates = [datetime.strptime(date, "%Y-%m-%d") for date in list(data.keys())]
+            dates.sort()
+            last_two_dates = [datetime.strftime(date, "%Y-%m-%d") for date in dates[-2:]]
+            last_two = [data[date] for date in last_two_dates]
 
-        variation_two = float(last_two[-1]['4. close']) - float(last_two[0]['4. close'])
+            variation_two = float(last_two[-1]['4. close']) - float(last_two[0]['4. close'])
+            
+            resp_data = {
+                'symbol': symbol,
+                'date': last_two_dates[-1],
+                'open': last_two[-1]['1. open'],
+                'high': last_two[-1]['2. high'],
+                'low': last_two[-1]['3. low'],
+                'closing_delta_two': str(variation_two),
+            }
+            response['data'] = resp_data
+        else:
+            return Response(data={
+                'thirdparty_message': data,
+                'message': 'symbol not found'
+                },
+                status=status.HTTP_400_BAD_REQUEST)
+
         
-        resp_data = {
-            'symbol': symbol,
-            'date': last_two_dates[-1],
-            'open': last_two[-1]['1. open'],
-            'high': last_two[-1]['2. high'],
-            'low': last_two[-1]['3. low'],
-            'closing_delta_two': str(variation_two),
-        }
-        
-        return Response(data=resp_data, status=status.HTTP_200_OK)
+        return Response(data=response, status=status.HTTP_200_OK)
