@@ -17,9 +17,17 @@ Add an .env file that contains your:
 * DEBUG: True or False. False when in production
 * AV_API_KEY: Your Alpha Vantage API Key
 
-Now you can run your project from the project root directory, as needed:
+In order to run your project, you will need to specify the environment mode (local/prod) with the evinronment variable:
+
+`export DJANGO_SETTINGS_MODULE=stock_service.settings.local`
+
+and go to the project's root directory, and run the server as needed:
 
 `python manage.py runserver`
+
+Or, send the flag that will specify the settings environment:
+
+`python manage.py runserver --settings=stock_service.settings.local`
 
 ## ROUTES IMPLEMENTED
 
