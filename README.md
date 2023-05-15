@@ -17,5 +17,5 @@ And install all the requirements
 | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
 | ------- | ----- | ------------- | ------------- |
 | *POST* | ```/auth/signup/``` | _Register new user_| _All users_|
-| *POST* | ```/auth/jwt/create``` | _Login user_| _All users_|
+| *POST* | ```/login``` | _Login user - get access token_| _All users_|
 | *GET* | ```/stoksinfo/``` | _Get a Stock Information_| _All authenticated users_|
