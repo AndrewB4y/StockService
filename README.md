@@ -17,6 +17,10 @@ Add an .env file that contains your:
 * DEBUG: True or False. False when in production
 * AV_API_KEY: Your Alpha Vantage API Key
 
+Now you can run your project from the project root directory, as needed:
+
+`python manage.py runserver`
+
 ## ROUTES IMPLEMENTED
 
 | METHOD | ROUTE | FUNCTIONALITY |ACCESS|
